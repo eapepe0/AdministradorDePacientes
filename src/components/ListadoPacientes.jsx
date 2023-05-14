@@ -34,3 +34,9 @@ export const ListadoPacientes = ({ listaPacientes , setPaciente , eliminarPacien
     </div>
   )
 }
+/**
+ * linea 9 : si en la lista hay contendio , hacemos un mapeo del array listaPacientes, y por cada paciente devolvemos un componente paciente
+ *           con los datos cargadso
+ * 
+ * linea 23 : si la lista de pacientes esta vacia , renderizamos Comienza agregando pacientes
+ */

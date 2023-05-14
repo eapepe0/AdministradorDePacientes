@@ -4,6 +4,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 export const Pacientes = ( { paciente , setPaciente , eliminarPaciente } ) => {
 
+    //* si apretamos eliminar , nos sale el sweetalert2 , si el resultado es si , apretamos el boton confimar , llamamos a la funcion eliminar pacientes
+    //* si apretamos No no hacemos nada
     const handleEliminar = () =>{
         Swal.fire({
             title: 'Cuidado!',

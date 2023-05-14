@@ -1,42 +1,43 @@
 import { useState , useEffect } from 'react';
 import { Error } from './Error'
-import { ListadoPacientes } from './ListadoPacientes';
 
 export const Formulario = ( { setListaPacientes , listado , paciente , setPaciente} ) => {
 
-  const [nombre, setNombre] = useState("");
-  const [propietario, setPropietario] = useState("");
-  const [email, setEmail] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [sintomas, setSintomas] = useState("");
+  const [nombre, setNombre] = useState(""); //* guardamos el nombre del animal
+  const [propietario, setPropietario] = useState(""); //* guardamos el nombre del dueño
+  const [email, setEmail] = useState(""); //* guardamos el email
+  const [fecha, setFecha] = useState(""); //* guardamos la fecha
+  const [sintomas, setSintomas] = useState(""); //* guardamos los sintomas
   
-  const [ error , setError ] = useState(false)
+  const [ error , setError ] = useState(false) //* guardamos un valor booleano si hay un error o no
 
-  const generarId = () =>{
+  const generarId = () =>{ //* funcion que sirve para generar un id aleatorio
     return Math.random().toString(36) + Date.now().toString(36)
   }
-  const handleSubmit = (e) =>{
-    e.preventDefault();
+
+  const handleSubmit = (e) =>{ //* se dispara cuando apretamos agregar o editar paciente
+    e.preventDefault(); 
 
     // validacion del formulario
     //* 
 
-    if( [ nombre , propietario , email , fecha , sintomas ].includes('') ){
+    if( [ nombre , propietario , email , fecha , sintomas ].includes('') ){ //* si hay algun campo vacio
         console.log('Hay al menos un campo vacio')
-        setError(true)
-        return;
+        setError(true) //* ponemos el valor en verdadero , hay un error
+        return; //*  no hace nada el handleSubmit , cortamos el flujo de la funcion
     }
 
-    setError(false)
+    setError(false) //* de lo contrario no hay error
+
     const objetoPaciente = {
         nombre,
         propietario , 
         email , 
         fecha , 
         sintomas,
-    }
+    } //* creamos un objeto de como sera el paciente
 
-    if(paciente.id){
+    if(paciente.id){ //* si el paciente ya tiene un id , significa que lo estamos editando
        //* editando registro
        objetoPaciente.id = paciente.id; //* le damos al objeto el mismo id ya creado
     
@@ -50,13 +51,13 @@ export const Formulario = ( { setListaPacientes , listado , paciente , setPacien
             return el
         }
        })
-       setListaPacientes(pacientesActualizados)
+       setListaPacientes(pacientesActualizados) //* cambiamos el valor de la lista de pacientes con los pagientes actualizados
        setPaciente({})
     }
     else{
         //* nuevo registro
-        objetoPaciente.id = generarId();
-        setListaPacientes([...listado , objetoPaciente])
+        objetoPaciente.id = generarId(); //* le damos al id un id aleatorio
+        setListaPacientes([...listado , objetoPaciente]) //* agregamos a la lista , lo que ya teniamos con el spread y le agreamos el registro nuevo 
     }
     
 
@@ -66,18 +67,20 @@ export const Formulario = ( { setListaPacientes , listado , paciente , setPacien
     setFecha("")
     setSintomas("")
 
+    //* volvemos todos los valores por defecto
+
   }
 
-  useEffect(() => {
-    if ( Object.keys( paciente ).length > 0) {
+  useEffect(() => { 
+    if ( Object.keys( paciente ).length > 0) { //* si el paciente existe
         setNombre(paciente.nombre )
         setPropietario(paciente.propietario )
         setEmail( paciente.email)
         setFecha(paciente.fecha )
         setSintomas(paciente.sintomas )
-
+        //* cargamos el formulario con los datos
     }
-  }, [paciente])
+  }, [paciente]) //* la lanzamos cada vez que se edita un paciente
   
   return (
     <div className="md:w-1/2 lg:w-2/5">
@@ -165,6 +168,7 @@ export const Formulario = ( { setListaPacientes , listado , paciente , setPacien
                 className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-all" 
                 value={paciente.id ? "Editar paciente" : "Agregar paciente"}
             />
+            {/* EL VALOR DEL boton se vera modificado si existe un paciente a editar o no */}
         </form>
     </div>
   )
